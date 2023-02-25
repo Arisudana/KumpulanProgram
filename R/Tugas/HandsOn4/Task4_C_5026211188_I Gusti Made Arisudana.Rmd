@@ -1,0 +1,96 @@
+---
+title: "Task4"
+author: "I Gusti Made Arisudana"
+date: "4/19/2022"
+output: html_document
+---
+
+Load data
+```{r}
+download.file("http://www.openintro.org/stat/data/bdims.RData", destfile = "bdims.RData")
+load("bdims.RData")
+```
+
+## Excercise
+
+Since males and females tend to have different body dimensions, it will be 
+useful to create two additional data sets: one with only men and another with 
+only women.
+```{r}
+male = subset(bdims,bdims$sex == 1)
+female = subset(bdims,bdims$sex == 0)
+```
+
+
+5.  Using the same technique, determine whether or not female weights appear to 
+    come from a normal distribution.
+```{r}
+qqnormsim(female$wgt)
+```
+Berdasarkan plotting persebaran data diatas, dapat dilihat bahwa mayoritas data diatas berada pada garis dan yang tidak berada pada garis berada di bagian akhir garis dimana hal tersebut dapat dimaklumi.
+
+    
+6.  Write out two probability questions that you would like to answer; one 
+    regarding female heights and one regarding female weights.  Calculate the 
+    those probabilities using both the theoretical normal distribution as well 
+    as the empirical distribution (four probabilities in all).  Which variable,
+    height or weight, had a closer agreement between the two methods?
+
+  a. Berapakah probabilitas seorang wanita memiliki tinggi badan di bawah 160 cm?
+```{r}
+fhgtmean <- mean(female$hgt)
+fhgtsd <- sd(female$hgt)
+pnorm(160, mean = fhgtmean, sd= fhgtsd)
+sum(female$hgt < 160)/ length(female$hgt)
+```
+  b. Berapakah probabilitas seorang wanita memiliki berat badan di atas 77 kg?
+```{r}
+fwgtmean <- mean(female$wgt)
+fwgtsd <- sd(female$wgt)
+pnorm(60, mean = fwgtmean, sd = fwgtsd,lower.tail=FALSE)
+sum(female$wgt>60)/ length(female$wgt)
+```
+Dari perhitungan probabilitas menggunakan 2 metode pada 2 variabel. Didapat dengan menggunakan 2 metode yang berbeda, variabel 'height' menghasilkan probabilitas yang lebih mirip dari kedua metode tersebut jika dibandingkan dengan variabel 'weight'
+    
+## On Your Own
+
+1. Now let's consider some of the other variables in the body dimensions dataset.  Using the figures at the end of the exercises, match the histogram to its normal probability plot.  All of the variables have been standardized (first subtract the mean, then divide by the standard deviation), so the units won't be of any help.  If you are uncertain based on these figures, generate the plots in R to check.
+  a. The histogram for female biiliac (pelvic) diameter (`bii.di`) belongs to normal probability plot letter
+```{r}
+hist(female$bii.di)
+qqnorm(female$bii.di)
+qqline(female$bii.di)
+```
+  
+  b. The histogram for female elbow diameter (`elb.di`) belongs to normal  probability plot letter
+```{r}
+hist(female$elb.di)
+qqnorm(female$elb.di)
+qqline(female$elb.di)
+```
+  
+  c. The histogram for general age (`age`) belongs to normal probability  plot letter
+```{r}
+hist(bdims$age)
+qqnorm(bdims$age)
+qqline(bdims$age)
+```
+  
+  d. The histogram for female chest depth (`che.de`) belongs to normal probability plot letter
+```{r}
+hist(female$che.de)
+qqnorm(female$che.de)
+qqline(female$che.de)
+```
+  
+  
+2. Note that normal probability plots C and D have a slight stepwise pattern. Why do you think this is the case?
+  Stepwise pattern biasa diakibatkan karena data yang dikumpulkan dalam bentuk discrete atau desimal.
+
+3. As you can see, normal probability plots can be used both to assess normality and visualize skewness.  Make a normal probability plot for female knee diameter (`kne.di`).  Based on this normal probability plot, is this  variable left skewed, symmetric, or right skewed?  Use a histogram to confirm your findings.
+```{r}
+qqnorm(female$kne.di)
+qqline(female$kne.di)
+hist(female$kne.di, breaks = 20)
+```
+Dari hasil plotting ukuran diameter lutut wanita dapat disimpulkan bahwa persebaran data tersebut berupa right skewed. Hal ini dapat terlihat lebih jelas bila dilihat menggunakan histogram, dimana terdapat banyak data yang berkumpul dibagian kiri histogram dan semakin berkurang dibagian kanan histogram.

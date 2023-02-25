@@ -1,0 +1,58 @@
+---
+title: "Tugas1"
+author: "I Gusti Made Arisudana"
+date: "3/19/2022"
+output: html_document
+---
+DATA YANG DIGUNAKAN
+```{r}
+source("http://www.openintro.org/stat/data/arbuthnot.R")
+source("http://www.openintro.org/stat/data/present.R")
+```
+
+1. Tahun berapa saja yang termasuk dalam kumpulan data 
+   ini? Apa dimensi dari dataframe dan apa saja nama   
+   variabel atau kolom pada data?
+```{r}
+present$year
+dim(present)
+names(present)
+```
+2. Bagaimana jumlah data ini dibandingkan dengan data 
+   Arbuthnot? Apakah mereka berada pada skala yang sama?
+   
+```{r}
+summary(arbuthnot)
+summary(present)
+```
+   
+   Jika dibandingkan data dari "present" dengan data dari "Arbuthnot", maka skala dari masing-masing data berbeda jauh. "present" berisi data dari jumlah kelahiran anak laki-laki dan anak perempuan di AS pada tahun 1940 hingga 2002. Sedangkan "Arbuthnot" berisi data dari jumlah anak laki-laki dan anak perempuan yang telah dibaptis di Kota London pada tahun 1629 hingga 1710. Walau tujuan dari kedua data tersebut sama, akan tetapi isi dari data tersebut berbeda. Dimana "present" memiliki data yang jauh lebih banyak jika dibandingkan dengan "Arbuthnot". Sehingga kedua data tersebut tidak dalam skala yang sama.
+   
+3. Buatlah plot yang menampilkan rasio laki-laki dan
+   perempuan untuk setiap tahun dalam kumpulan data. Apa yang kamu dapatkan?
+   Pada awal tahun data tersebut dicatat, terlihat bahwa rasio kelahiran anak laki-laki lebih tinggi jika dibandingkan dengan anak perempuan. Namun hal tersebut mengalami tren penurunan yang berarti pada tahun tersebut jumlah kelahiran anak perempuan meningkat, sehingga rasio mengalami penurunan. Rasio kembali naik hingga puncaknya pada tahun 1970an sebelum akhirnya kembali mengalami penurunan hingga tahun 2000an. Dari hasil plotting tersebut dapat disimpulkan bahwa jumlah kelahiran anak laki-laki dan anak perempuan tidak tetap, dan cenderung mengalami perubahan. Akan tetapi jumlah kelahiran anak laki-laki selalu lebih tinggi dari jumlah kelahiran anak perempuan.
+```{r}
+present$ratio <- present$boys/present$girls
+plot(present$year, present$ratio, type = "l")
+```
+
+
+4. Apakah pengamatan pada data Arbuthnot mengenai anak 
+   laki-laki yang dilahirkan memiliki proporsi yang lebih 
+   besar dibandingkan anak perempuan di AS? Sertakan 
+   gambaran plot dalam tanggapan Anda.
+```{r}
+present$boys > present$girls
+```
+   Dari perbandingan tersebut, terlihat bahwa jumlah kelahiran anak laki-laki lebih tinggi daripada jumlah kelahiran anak perempuan setiap tahunnya.
+   
+   
+5. Pada tahun berapa kita melihat jumlah kelahiran  
+   terbanyak di AS?
+   Jumlah kelahiran terbanyak di AS terdapat di tahun ...
+```{r}
+present$total <- present$boys+present$girls
+present$year[which.max(present$total)]
+```
+   
+   

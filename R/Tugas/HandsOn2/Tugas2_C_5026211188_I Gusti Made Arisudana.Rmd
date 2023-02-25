@@ -1,0 +1,70 @@
+---
+title: "Tugas2"
+author: "I Gusti Made Arisudana"
+date: "4/2/2022"
+output: html_document
+---
+
+Data yang digunakan
+```{r}
+source("http://www.openintro.org/stat/data/cdc.R")
+```
+
+
+1. Buat diagram scatterplot weight versus desired weight. Jelaskan hubungan antara kedua variabel tersebut.
+
+```{r}
+plot(cdc$weight, cdc$wtdesire, xlab = "Weight", ylab = "Desired Weight")
+
+```
+Variabel "Weight" berisi data dari berat badan responden, sedangkan variabel "wtdesire" berisi data berat badan ideal dari masing-masing responden. Kedua variabel ini memiliki hubungan perbandingan apakah berat responden saat ini sudah ideal atau belum. Variabel "wtdesire" sendiri ditentukan oleh beberapa variabel lain. Dari grafik scatterplot diatas dapat dilihat bahwa ada beberapa outlier yang berarti data tersebut berbeda jauh dari yang lainnya.
+
+
+2. Mari kita pertimbangkan variabel baru: perbedaan antara bobot yang diinginkan (`wtdesire`) dan bobot saat ini (`weight`). Buat variabel baru ini dengan mengurangi dua kolom dalam dataframe dan menetapkannya ke objek baru yang disebut `wdiff`.
+
+```{r}
+wdiff <- cdc$wtdesire - cdc$weight
+```
+
+
+3. Jenis data apa yang `wdiff`? Jika pengamatan `wdiff` adalah 0, apa artinya ini dari berat badan orang tersebut dan berat badan yang diinginkan. Bagaimana jika `wdiff` positif atau negatif?
+
+```{r}
+typeof(wdiff)
+wdiff
+```
+Bila data dari "wdiff" memiliki nilai 0, berarti berat badan dari responden tersebut sudah sesuai dengan berat yang diinginkan. Bila data dari "wdiff" memiliki nilai positif, berarti berat badan dari responden tersebut masih kurang atau dibawah dari berat badan yang diinginkan. Bila data dari "wdiff" memiliki nilai negatif, berarti berat badan dari responden tersebut melebihi atau diatas dari berat badan yang diinginkan.
+
+
+4. Jelaskan distribusi `wdiff` berdasarkan pusatnya, bentuknya, dan penyebarannya, termasuk plot yang Anda gunakan. Apa yang didapatkan dari plot tersebut berdasarkan yang orang rasakan dari berat badan mereka saat ini?
+
+```{r}
+hist(wdiff, breaks = 100,
+     include.lowest = TRUE, right = TRUE,
+     main = paste("Histrogram of Weight Difference"),
+     xlim = c(-100, 100))
+summary(wdiff)
+```
+Berdasarkan distribusi dari histogram diatas dapat disimpulkan bahwa mayoritas data memiliki nilai yang mendekati nol dan dibawah nol, sedangkan sebagian kecil dari data tersebut berada diatas nol. Dari histrogram tersebut dapat ditarik kesimpulan bahwa histogram tersebut adalah left-skewed dimana mean dan mediannya berada di sisi kiri dan persebaran data lebih terkonsentrasi pada sisi kanan. Saya menggunakan histogram untuk mempermudah dalam membaca data, saya juga membatasi data yang digunakan dalam histogram tersebut dengan memberikan interval dari -100 hingga 100. Berdasarkan data dari histogram, banyak orang memiliki berat yang lebih tinggi dari berat yang diinginkan.
+
+5. Menggunakan numerical summaries dan side-by-side box plot, tentukan apakah pria cenderung memandang berat badan mereka secara berbeda dari wanita.
+```{r}
+maleWdiff <- (subset(cdc$wtdesire, cdc$gender == 'm')) - (subset(cdc$weight, cdc$gender == 'm'))
+femaleWdiff <- (subset(cdc$wtdesire, cdc$gender == 'f')) - (subset(cdc$weight, cdc$gender == 'f'))
+summary(maleWeight)
+summary(femaleWeight)
+boxplot(maleWdiff, femaleWdiff, ylim=c(-100,100), names = c("Male Weight", "Female Weight"), ylab = "Pounds")
+```
+Dari data boxplot diatas dapat disimpulkan bahwa pria tidak begitu memerhatikan berat badan mereka jika dibandingkan dengan wanita. Banyak dari responden pria memiliki perbedaan berat badan yang signifikan dengan berat badan yang diinginkan. Sedangkan untuk wanita dapat dilihat bahwa hanya sedikit wanita yang memiliki perbedaan yang signifikan dengan berat yang diinginkan, banyak dari responden wanita memiliki berat yang mereka inginkan.
+
+
+6.Sekarang saatnya untuk menjadi kreatif. Temukan mean dan standar deviasi dari `berat` dan tentukan proporsi dari berat badan yang berada dalam satu standar deviasi mean.
+```{r}
+mean(cdc$weight)
+StanDev <- sd(cdc$weight)
+StanDev
+rangeX <- (129.602:cdc$weight:209.763)
+rangeX
+(length(rangeX)/20000) * 100
+```
+Berdasakan perhitungan diatas, didapat mean dari data `cdc$weight` yaitu sebesar 169.683 dan standar deviasi sebesar 40.08097. Dari perhitungan tersebut dapat ditentukan proporsi dari berat badan yang berada dalam satu standar deviasi mean, yang berarti data yang berada diantara mean kurang dari standar deviasi dan mean lebih dari standar deviasi (129.602 < mean < 209.763). Didapati 81 data termasuk dalam range tersebut yang memiliki persentase sebesar 0.405% dari total data `cdc$weight`.

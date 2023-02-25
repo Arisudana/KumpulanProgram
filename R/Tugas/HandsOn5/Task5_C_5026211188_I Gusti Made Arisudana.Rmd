@@ -1,0 +1,61 @@
+---
+title: "Task4"
+author: "I Gusti Made Arisudana"
+date: "4/27/2022"
+output: html_document
+---
+
+```{r}
+download.file("http://www.openintro.org/stat/data/ames.RData", destfile = "ames.RData")
+load("ames.RData")
+population <- ames$Gr.Liv.Area
+samp <- sample(population, 60)
+samp_mean <- mean(samp)
+samp_sd <- sd(samp)
+```
+
+1.  Using the following function (which was downloaded with the data set), 
+    plot all intervals. What proportion of your confidence intervals include 
+    the true population mean? Is this proportion exactly equal to the 
+    confidence level? If not, explain why.
+```{r}
+for(i in 1:50){
+  samp <- sample(population, 60) 
+  samp_mean[i] <- mean(samp)    
+  samp_sd[i] <- sd(samp)    
+}
+lower_vector <- samp_mean - 1.96 * samp_sd / sqrt(60) 
+upper_vector <- samp_mean + 1.96 * samp_sd / sqrt(60)
+plot_ci(lower_vector, upper_vector, mean(population))
+```
+Berdasarkan hasil plotting diatas, terdapat 3 dari 50 interval yang tidak termasuk dalam nilai mu sebesar 1499,6904. Proporsinya adalah 94% dan nilainya tidak sama dengan nilai confidence level. Nilai confidence level dapat dianggap sebagai sebuah probabilitas mencakup true population mean.   
+    
+2.  Pick a confidence level of your choosing, provided it is not 95%. What is 
+    the appropriate critical value?
+```{r}
+cl <- 97
+alpha <- 1-(cl/100)
+cp <- 1-(alpha/2) 
+critical_value <- qnorm(cp)
+critical_value
+```
+    
+    
+3.  Calculate 50 confidence intervals at the confidence level you chose in the 
+    previous question. You do not need to obtain new samples, simply calculate 
+    new intervals based on the sample means and standard deviations you have 
+    already collected. Using the `plot_ci` function, plot all intervals and 
+    calculate the proportion of intervals that include the true population 
+    mean. How does this percentage compare to the confidence level selected for
+    the intervals?
+```{r}
+for(i in 1:50){
+  samp <- sample(population, 60) 
+  samp_mean[i] <- mean(samp)    
+  samp_sd[i] <- sd(samp)    
+}
+lower_vector <- samp_mean - critical_value * samp_sd / sqrt(60) 
+upper_vector <- samp_mean + critical_value * samp_sd / sqrt(60)
+plot_ci(lower_vector, upper_vector, mean(population))
+```
+Berdasarkan hasil plotting diatas 2 dari 50 interval tidak mencakup nilai mu = 1499,6904. Proporsinya adalah 96% dan nilainya lebih tinggi dari confidence level yang baru yaitu 97%.  
