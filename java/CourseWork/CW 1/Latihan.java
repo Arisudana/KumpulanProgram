@@ -1,0 +1,17 @@
+class Latihan{
+	public static void main(String[] args){
+	int age, height;
+	age = 18;
+	height = 120;
+	age++;
+	height = age + 3;
+	age = --height;
+	age = ++age - height;
+	++age;
+	height--;
+	age = age + height;
+	height++;
+	System.out.println((++age));
+	System.out.println((height--));
+}
+}
